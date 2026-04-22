@@ -1,0 +1,7 @@
+applications:
+- name: csabiapp
+  memory: 2048M
+  disk_quota: 2048M
+  buildpacks:
+    - python_buildpack
+  random-route: true  # This generates a unique URL for you

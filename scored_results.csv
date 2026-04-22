@@ -1,0 +1,29 @@
+record_id,order_year,order_month,category_name,shipping_mode,market,order_region,department,customer_segment,payment_type,predicted_demand,category_avg,inventory_decision,delay_risk,delay_decision,scored_at
+1,2020,4,Indoor/Outdoor Games,Standard Class,USCA,South of USA,Recreation,Consumer,TRANSFER,10.49,120.0,Reduce Stock,0.2,No Action,2026-04-20T23:07:56.766527
+2,2020,11,DVDs,Standard Class,Europe,Western Europe,Entertainment,Home Office,PAYMENT,13.39,80.0,Reduce Stock,0.58,Monitor Closely,2026-04-20T23:07:56.815351
+3,2020,10,Cleats,Standard Class,Pacific Asia,West Asia,Footwear,Consumer,DEBIT,7.1,200.0,Reduce Stock,0.37,No Action,2026-04-20T23:07:56.832998
+4,2020,2,Men's Footwear,Standard Class,LATAM,South America,Footwear,Consumer,PAYMENT,6.97,150.0,Reduce Stock,0.54,Monitor Closely,2026-04-20T23:07:56.848842
+5,2020,1,Video Games,Standard Class,Pacific Asia,Eastern Asia,Entertainment,Consumer,TRANSFER,4.49,220.0,Reduce Stock,0.59,Monitor Closely,2026-04-20T23:07:56.885935
+6,2020,7,Camping & Hiking,Standard Class,USCA,South of USA,Outdoors,Consumer,DEBIT,9.14,180.0,Reduce Stock,0.46,Monitor Closely,2026-04-20T23:07:56.911433
+7,2020,8,Trade-In,Standard Class,Europe,Western Europe,Retail,Consumer,PAYMENT,11.85,90.0,Reduce Stock,0.39,No Action,2026-04-20T23:07:56.946695
+8,2020,6,Men's Footwear,Standard Class,Europe,Western Europe,Footwear,Consumer,DEBIT,5.15,170.0,Reduce Stock,0.342,No Action,2026-04-20T23:07:56.971956
+9,2020,7,Golf Apparel,Standard Class,Europe,Western Europe,Apparel,Home Office,PAYMENT,7.98,130.0,Reduce Stock,0.35,No Action,2026-04-20T23:07:56.999875
+10,2020,4,Cleats,First Class,LATAM,Central America,Footwear,Consumer,PAYMENT,7.92,210.0,Reduce Stock,0.91,Expedite Shipment,2026-04-20T23:07:57.032701
+11,2020,5,Fishing,Standard Class,Europe,Northern Europe,Outdoors,Consumer,DEBIT,10.52,140.0,Reduce Stock,0.44,Monitor Closely,2026-04-20T23:07:57.064378
+12,2020,6,Cardio Equipment,Second Class,USCA,East of USA,Fitness,Corporate,TRANSFER,7.89,190.0,Reduce Stock,0.62,Monitor Closely,2026-04-20T23:07:57.086521
+13,2020,7,DVDs,Standard Class,LATAM,Caribbean,Entertainment,Home Office,PAYMENT,15.32,75.0,Reduce Stock,0.56,Monitor Closely,2026-04-20T23:07:57.110539
+14,2020,8,Water Sports,Same Day,Europe,Western Europe,Outdoors,Consumer,DEBIT,9.08,210.0,Reduce Stock,0.94,Expedite Shipment,2026-04-20T23:07:57.144784
+15,2020,9,Camping & Hiking,Standard Class,Pacific Asia,South Asia,Outdoors,Consumer,TRANSFER,7.55,160.0,Reduce Stock,0.25,No Action,2026-04-20T23:07:57.167828
+16,2020,10,Golf Apparel,First Class,Africa,North Africa,Apparel,Corporate,PAYMENT,12.33,95.0,Reduce Stock,0.88,Expedite Shipment,2026-04-20T23:07:57.197254
+17,2020,11,Men's Footwear,Second Class,Europe,Southern Europe,Footwear,Consumer,DEBIT,5.63,180.0,Reduce Stock,0.85,Expedite Shipment,2026-04-20T23:07:57.219799
+18,2020,12,Video Games,Same Day,USCA,Canada,Entertainment,Home Office,TRANSFER,11.67,230.0,Reduce Stock,0.71,Expedite Shipment,2026-04-20T23:07:57.248538
+19,2020,3,Sporting Goods,Standard Class,Europe,Western Europe,Fitness,Consumer,TRANSFER,6.19,155.0,Reduce Stock,0.42,Monitor Closely,2026-04-20T23:07:57.381124
+20,2020,4,Cardio Equipment,Second Class,USCA,West of USA,Fitness,Corporate,DEBIT,8.97,210.0,Reduce Stock,0.88,Expedite Shipment,2026-04-20T23:07:57.482121
+21,2020,5,DVDs,Standard Class,LATAM,Central America,Entertainment,Home Office,PAYMENT,11.62,95.0,Reduce Stock,0.46,Monitor Closely,2026-04-20T23:07:57.581491
+22,2020,6,Camping & Hiking,First Class,Europe,Northern Europe,Outdoors,Consumer,TRANSFER,7.08,180.0,Reduce Stock,0.77,Expedite Shipment,2026-04-20T23:07:57.713713
+23,2020,7,Cleats,Standard Class,Pacific Asia,East Asia,Footwear,Consumer,DEBIT,10.74,130.0,Reduce Stock,0.34,No Action,2026-04-20T23:07:57.798493
+24,2020,8,Water Sports,Same Day,Africa,West Africa,Outdoors,Corporate,PAYMENT,8.1,220.0,Reduce Stock,0.86,Expedite Shipment,2026-04-20T23:07:57.881400
+25,2020,9,Fishing,Second Class,Europe,Southern Europe,Outdoors,Consumer,DEBIT,6.26,160.0,Reduce Stock,0.9,Expedite Shipment,2026-04-20T23:07:57.974547
+26,2020,10,Men's Footwear,Standard Class,USCA,East of USA,Footwear,Home Office,TRANSFER,9.87,140.0,Reduce Stock,0.35,No Action,2026-04-20T23:07:58.098355
+27,2020,11,Golf Apparel,First Class,Europe,Western Europe,Apparel,Corporate,PAYMENT,8.99,200.0,Reduce Stock,0.89,Expedite Shipment,2026-04-20T23:07:58.165058
+28,2020,12,Video Games,Same Day,LATAM,South America,Entertainment,Consumer,DEBIT,11.68,250.0,Reduce Stock,0.88,Expedite Shipment,2026-04-20T23:07:58.252637
