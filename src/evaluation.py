@@ -28,3 +28,21 @@ def classification_metrics(y_true, proba, threshold: float = 0.5) -> dict:
         "roc_auc": roc_auc_score(y_true, proba),
         "pr_auc": average_precision_score(y_true, proba),
     }
+
+
+
+def regression_metrics(y_true, pred) -> dict:
+    """Error metrics for demand forecasts.
+
+    WAPE = sum of absolute errors / sum of actual demand. It is scale-free,
+    so categories with large and small demand can be compared.
+    """
+    y_true = np.asarray(y_true, dtype=float)
+    pred = np.asarray(pred, dtype=float)
+    err = pred - y_true
+    return {
+        "MAE": np.mean(np.abs(err)),
+        "RMSE": np.sqrt(np.mean(err ** 2)),
+        "WAPE": np.sum(np.abs(err)) / np.sum(y_true),
+        "bias": np.mean(err),
+    }

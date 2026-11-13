@@ -81,3 +81,36 @@ def add_lag_features(panel, lags=DEMAND_LAGS):
     panel["roll_mean_3"] = by_cat.transform(lambda s: s.shift(1).rolling(3).mean())
     panel["month"] = panel["period"].dt.month
     return panel.dropna().reset_index(drop=True)
+
+
+
+DEMAND_LAG_FEATURES = [f"lag_{lag}" for lag in DEMAND_LAGS] + ["roll_mean_3"]
+DEMAND_FEATURES = DEMAND_LAG_FEATURES + ["month", "Category Name"]
+DEMAND_TARGET = "demand"
+
+
+def demand_tree_preprocessor() -> ColumnTransformer:
+    """For Random Forest / XGBoost: one-hot category, numeric features as they are."""
+    return ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+             ["Category Name"]),
+            ("num", "passthrough", DEMAND_LAG_FEATURES + ["month"]),
+        ]
+    )
+
+
+def demand_poisson_preprocessor() -> ColumnTransformer:
+    """For Poisson regression (log link): log of past demand, one-hot category and month."""
+    import numpy as np
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import FunctionTransformer, StandardScaler
+
+    return ColumnTransformer(
+        transformers=[
+            ("lags", make_pipeline(FunctionTransformer(np.log1p), StandardScaler()),
+             DEMAND_LAG_FEATURES),
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+             ["Category Name", "month"]),
+        ]
+    )
