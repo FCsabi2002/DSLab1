@@ -46,3 +46,56 @@ def regression_metrics(y_true, pred) -> dict:
         "WAPE": np.sum(np.abs(err)) / np.sum(y_true),
         "bias": np.mean(err),
     }
+
+
+
+# --- Rolling-origin validation and uncertainty ------------------------------
+
+def rolling_origin_months(panel, first_test, last_test, period_col="period"):
+    """Yield (test_month, train_index, test_index) for one-month-ahead forecasts.
+
+    For every test month the model is trained on ALL earlier months
+    (expanding window) and tested on that single month.
+    """
+    for month in pd.period_range(first_test, last_test, freq="M"):
+        train_idx = panel.index[panel[period_col] < month]
+        test_idx = panel.index[panel[period_col] == month]
+        yield month, train_idx, test_idx
+
+
+def wape(y_true, pred) -> float:
+    y_true = np.asarray(y_true, dtype=float)
+    pred = np.asarray(pred, dtype=float)
+    return np.sum(np.abs(pred - y_true)) / np.sum(y_true)
+
+
+def cluster_bootstrap(y_true, pred_a, clusters, metric, pred_b=None,
+                      n_boot=2000, seed=42):
+    """95% bootstrap confidence interval of a metric (or of a difference).
+
+    Whole clusters (e.g. months or orders) are resampled with replacement,
+    because rows inside one cluster are not independent.
+    If pred_b is given, the interval is for metric(pred_a) - metric(pred_b).
+    Returns (point_estimate, lower, upper).
+    """
+    y_true = np.asarray(y_true, dtype=float)
+    pred_a = np.asarray(pred_a, dtype=float)
+    pred_b = None if pred_b is None else np.asarray(pred_b, dtype=float)
+    clusters = np.asarray(clusters)
+
+    def stat(idx):
+        value = metric(y_true[idx], pred_a[idx])
+        if pred_b is not None:
+            value -= metric(y_true[idx], pred_b[idx])
+        return value
+
+    unique = np.unique(clusters)
+    rows_of = {c: np.where(clusters == c)[0] for c in unique}
+    rng = np.random.default_rng(seed)
+    boot = []
+    for _ in range(n_boot):
+        sample = rng.choice(unique, size=len(unique), replace=True)
+        boot.append(stat(np.concatenate([rows_of[c] for c in sample])))
+    point = stat(np.arange(len(y_true)))
+    lower, upper = np.percentile(boot, [2.5, 97.5])
+    return point, lower, upper
