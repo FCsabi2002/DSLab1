@@ -128,3 +128,25 @@ def delay_linear_preprocessor() -> ColumnTransformer:
             ("num", StandardScaler(), DELAY_NUMERIC),
         ]
     )
+
+
+
+# --- Late delivery model, version 2 (Phase 1) -------------------------------
+# High-cardinality location columns are target-encoded: each city/country is
+# replaced by its (smoothed) historical late rate, learned on training data only.
+DELAY_TARGET_ENCODED = ["Order City", "Order Country"]
+DELAY_FEATURES_V2 = DELAY_NUMERIC + DELAY_CATEGORICAL + DELAY_TARGET_ENCODED
+
+
+def delay_preprocessor_v2() -> ColumnTransformer:
+    """Version 1 preprocessing + target encoding of order city and country."""
+    from sklearn.preprocessing import TargetEncoder
+
+    return ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+             DELAY_CATEGORICAL),
+            ("te", TargetEncoder(random_state=42), DELAY_TARGET_ENCODED),
+            ("num", "passthrough", DELAY_NUMERIC),
+        ]
+    )
