@@ -37,3 +37,47 @@ def delay_preprocessor() -> ColumnTransformer:
             ("num", "passthrough", DELAY_NUMERIC),
         ]
     )
+
+
+
+# --- Demand model ----------------------------------------------------------
+DEMAND_START = "2015-01"   # first month in the data
+DEMAND_END = "2017-09"     # last complete month (after this the data is broken)
+DEMAND_LAGS = [1, 2, 3, 12]
+
+
+def monthly_demand_panel(df, start=DEMAND_START, end=DEMAND_END, complete_only=True):
+    """Monthly ordered quantity per product category.
+
+    complete_only=True keeps only categories that have orders in EVERY month
+    of the window, so that lag features are always available.
+    """
+    import pandas as pd
+
+    period = df["order_date"].dt.to_period("M")
+    mask = (period >= pd.Period(start, "M")) & (period <= pd.Period(end, "M"))
+    panel = (
+        df[mask]
+        .assign(period=period[mask])
+        .groupby(["Category Name", "period"])["Order Item Quantity"]
+        .sum()
+        .rename("demand")
+        .reset_index()
+    )
+    if complete_only:
+        n_periods = panel["period"].nunique()
+        months_per_cat = panel.groupby("Category Name")["period"].nunique()
+        keep = months_per_cat[months_per_cat == n_periods].index
+        panel = panel[panel["Category Name"].isin(keep)]
+    return panel.sort_values(["Category Name", "period"]).reset_index(drop=True)
+
+
+def add_lag_features(panel, lags=DEMAND_LAGS):
+    """Add features that only use PAST demand (no information from the target month)."""
+    panel = panel.copy()
+    by_cat = panel.groupby("Category Name")["demand"]
+    for lag in lags:
+        panel[f"lag_{lag}"] = by_cat.shift(lag)
+    panel["roll_mean_3"] = by_cat.transform(lambda s: s.shift(1).rolling(3).mean())
+    panel["month"] = panel["period"].dt.month
+    return panel.dropna().reset_index(drop=True)
