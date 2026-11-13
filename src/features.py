@@ -114,3 +114,17 @@ def demand_poisson_preprocessor() -> ColumnTransformer:
              ["Category Name", "month"]),
         ]
     )
+
+
+
+def delay_linear_preprocessor() -> ColumnTransformer:
+    """For logistic regression: one-hot categories, standardised numeric columns."""
+    from sklearn.preprocessing import StandardScaler
+
+    return ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+             DELAY_CATEGORICAL),
+            ("num", StandardScaler(), DELAY_NUMERIC),
+        ]
+    )

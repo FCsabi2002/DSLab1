@@ -89,13 +89,15 @@ def cluster_bootstrap(y_true, pred_a, clusters, metric, pred_b=None,
             value -= metric(y_true[idx], pred_b[idx])
         return value
 
-    unique = np.unique(clusters)
-    rows_of = {c: np.where(clusters == c)[0] for c in unique}
+    unique, codes = np.unique(clusters, return_inverse=True)
     rng = np.random.default_rng(seed)
+    all_rows = np.arange(len(y_true))
     boot = []
     for _ in range(n_boot):
         sample = rng.choice(unique, size=len(unique), replace=True)
-        boot.append(stat(np.concatenate([rows_of[c] for c in sample])))
+        # how many times each cluster was drawn -> repeat its rows that many times
+        times = np.bincount(np.searchsorted(unique, sample), minlength=len(unique))
+        boot.append(stat(np.repeat(all_rows, times[codes])))
     point = stat(np.arange(len(y_true)))
     lower, upper = np.percentile(boot, [2.5, 97.5])
     return point, lower, upper
